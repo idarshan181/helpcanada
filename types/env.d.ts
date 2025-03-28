@@ -7,6 +7,8 @@ declare namespace NodeJS {
     AUTH_GOOGLE_SECRET: string;
     AUTH_GOOGLE_CALLBACK_URL: string;
     DATABASE_URL: string;
+    UPLOADTHING_TOKEN: string;
+    ARCJET_KEY: string;
     // Add other environment variables here
     NEXT_PUBLIC_BACKEND_URL: string;
     DOMAIN: string;
@@ -16,6 +18,8 @@ declare namespace NodeJS {
     UPSTASH_REDIS_REST_TOKEN: string;
     NEXTAUTH_SECRET: string;
     NEXT_PUBLIC_API_URL: string;
+    IPINFO_TOKEN: string;
+    SENDGRID_API_KEY: string;
     NEXT_PUBLIC_GOOGLE_ANALYTICS: string;
   }
 }

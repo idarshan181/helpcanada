@@ -1,8 +1,6 @@
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { Metadata } from 'next';
 
-import Navbar from '@/components/general/Navbar';
-
 import Providers from '@/components/general/Providers';
 
 import { GoogleAnalytics } from '@next/third-parties/google';
@@ -129,10 +127,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <Navbar />
-          <main>
-            {children}
-          </main>
+          {children}
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ?? ''} />
           <Analytics />
         </Providers>

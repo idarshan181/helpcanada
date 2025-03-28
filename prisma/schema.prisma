@@ -62,3 +62,22 @@ model VerificationToken {
 
   @@id([identifier, token])
 }
+
+model Product {
+  id              Int    @id @default(autoincrement())
+  name            String
+  price           Float
+  currency        String
+  countryOfOrigin String
+  amazonLink      String
+  walmartLink     String
+
+  // Self-referencing relation
+  alternativeProductId Int?     @map("alternative_product_id")
+  alternativeProduct   Product? @relation("AlternativeProduct", fields: [alternativeProductId], references: [id], onDelete: SetNull)
+
+  // Inverse relation (not necessary, but helpful if you want to query which products refer to this one)
+  alternativeToProducts Product[] @relation("AlternativeProduct")
+
+  @@map("products")
+}
