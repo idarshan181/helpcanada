@@ -1,14 +1,19 @@
-import { auth } from '@/lib/auth';
+'use client';
+
+import { cn } from '@/lib/utils';
 import HelpCanadaLogo from '@/public/logos/logo_canada.png';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { buttonVariants } from '../ui/button';
 import ContributionBadge from './ContributionBadge';
 import { ThemeToggle } from './ThemeToggle';
 import UserDropdown from './UserDropdown';
 
-export default async function Navbar() {
-  const session = await auth();
+export default function Navbar() {
+  const { data: session } = useSession();
+  const pathname = usePathname();
 
   return (
     <nav className="m-0 flex w-full items-center justify-between border-b border-gray-200 px-3 py-5">
@@ -23,22 +28,20 @@ export default async function Navbar() {
       </div>
       <div className="hidden md:flex items-center gap-6">
         <Link
-          href="/products"
-          className="text-muted-foreground hover:text-foreground transition"
+          href="/"
+          className={cn('text-muted-foreground hover:text-foreground transition', {
+            'text-foreground': pathname === '/',
+          })}
         >
           Products
         </Link>
         <Link
-          href="/about"
-          className="text-muted-foreground hover:text-foreground transition"
+          href="/contributions"
+          className={cn('text-muted-foreground hover:text-foreground transition', {
+            'text-foreground': pathname === '/contributions',
+          })}
         >
-          About
-        </Link>
-        <Link
-          href="/contact-us"
-          className="text-muted-foreground hover:text-foreground transition"
-        >
-          Contact Us
+          Contributions
         </Link>
       </div>
       <div className="flex items-center gap-5">
