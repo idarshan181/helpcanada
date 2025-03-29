@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -34,10 +40,11 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
-  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  analytics         Analytics[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  analytics Analytics[]
 
   @@id([provider, providerAccountId])
 }
@@ -60,33 +67,37 @@ model VerificationToken {
 }
 
 model Product {
-  id                    Int       @id @default(autoincrement())
-  name                  String
-  price                 Float
-  currency              String
-  countryOfOrigin       String
-  amazonLink            String
-  walmartLink           String
-  alternativeProductId  Int?      @map("alternative_product_id")
-  alternativeProduct    Product?  @relation("AlternativeProduct", fields: [alternativeProductId], references: [id])
-  alternativeToProducts Product[] @relation("AlternativeProduct")
+  id              String @id @default(cuid())
+  name            String
+  price           Float
+  currency        String
+  category        String
+  countryOfOrigin String
+  amazonLink      String
+  walmartLink     String
+
+  // New fields
+  pros    String[] // PostgreSQL supports arrays
+  cons    String[]
+  rating  Float    @default(0.0)
+  organic Boolean  @default(false)
 
   @@map("products")
 }
 
 model Analytics {
-  id                       Int      @id @default(autoincrement())
-  month                    Int
+  id                       String   @id @default(cuid())
+  month                    Int // 1 to 12
   year                     Int
-  totalExpense             Float
-  canadianContribution     Float
+  totalExpense             Float // total money spent
+  canadianContribution     Float // money spent on Canadian products
   createdAt                DateTime @default(now())
   userId                   String
+  user                     User     @relation(fields: [userId], references: [id])
+  Account                  Account? @relation(fields: [accountProvider, accountProviderAccountId], references: [provider, providerAccountId])
   accountProvider          String?
   accountProviderAccountId String?
-  Account                  Account? @relation(fields: [accountProvider, accountProviderAccountId], references: [provider, providerAccountId])
-  user                     User     @relation(fields: [userId], references: [id])
 
-  @@unique([userId, month, year])
+  @@unique([userId, month, year]) // Each user has only one entry per month-year combo
   @@map("analytics")
 }
