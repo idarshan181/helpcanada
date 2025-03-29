@@ -1,11 +1,15 @@
+import { auth } from '@/lib/auth';
 import HelpCanadaLogo from '@/public/logos/logo_canada.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
 import ContributionBadge from './ContributionBadge';
 import { ThemeToggle } from './ThemeToggle';
+import UserDropdown from './UserDropdown';
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await auth();
+
   return (
     <nav className="m-0 flex w-full items-center justify-between border-b border-gray-200 px-3 py-5">
       <div className="flex items-center gap-2">
@@ -42,12 +46,22 @@ export default function Navbar() {
 
         <ThemeToggle />
 
-        <Link
-          href="/login"
-          className={buttonVariants({ variant: 'outline', size: 'lg' })}
-        >
-          Login
-        </Link>
+        {session?.user
+          ? (
+              <UserDropdown
+                email={session.user.email as string}
+                name={session.user.name as string}
+                image={session.user.image as string}
+              />
+            )
+          : (
+              <Link
+                href="/login"
+                className={buttonVariants({ variant: 'outline', size: 'lg' })}
+              >
+                Login
+              </Link>
+            )}
       </div>
     </nav>
   );

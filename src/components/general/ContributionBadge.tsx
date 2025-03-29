@@ -31,7 +31,9 @@ const ContributionBadge = () => {
     }
 
     if (!session) {
-      signIn(); // Redirect to login
+      signIn('google', {
+        redirectTo: '/',
+      }); // Redirect to login
       return;
     }
 
