@@ -22,9 +22,9 @@ const CanadianToggle: React.FC<CanadianToggleProps> = ({
       />
       <Label
         htmlFor="canadian-only"
-        className="text-sm font-medium cursor-pointer flex items-center"
+        className="text-sm text-primary font-medium cursor-pointer flex items-center"
       >
-        <MapleLeafIcon className="h-4 w-4 mr-1 text-canada-red" />
+        <MapleLeafIcon className="h-4 w-4 mr-1 text-primary" />
         Canadian Products Only
       </Label>
     </div>
