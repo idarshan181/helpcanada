@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useDebounce } from '@/hooks/useDebounce';
 import { Mic, Search } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Input } from '../ui/input';
 
@@ -12,14 +12,52 @@ interface SearchBarProps {
   defaultValue?: string;
 }
 
+type SpeechRecognition = typeof window.SpeechRecognition;
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+}
+
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, defaultValue = '' }) => {
   const [searchTerm, setSearchTerm] = useState(defaultValue);
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const debouncedSearchTerm = useDebounce(searchTerm, isListening ? 500 : 300);
 
   useEffect(() => {
     onSearch(debouncedSearchTerm);
   }, [debouncedSearchTerm, onSearch]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition
+        = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = false;
+        recognitionRef.current.lang = 'en-US';
+
+        recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
+          const transcript = event.results[0][0].transcript;
+          setSearchTerm(transcript);
+          setIsListening(false);
+        };
+
+        recognitionRef.current.onerror = () => {
+          toast.error('Voice Search Failed', {
+            description: 'Error occurred during voice recognition.',
+          });
+          setIsListening(false);
+        };
+
+        recognitionRef.current.onend = () => {
+          setIsListening(false);
+        };
+      }
+    }
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -29,10 +67,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, defaultValue = '' }) =>
   };
 
   const handleVoiceSearch = () => {
-    toast.warning('Voice Search', {
-      description: 'Voice search is not available yet. Please type your search.',
-      duration: 3000,
-    });
+    if (!recognitionRef.current) {
+      toast.warning('Voice Search Not Supported', {
+        description: 'Your browser does not support voice recognition.',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+      toast.info('Listening...', {
+        description: 'Please speak now.',
+        duration: 2000,
+      });
+    }
   };
 
   return (
@@ -50,7 +103,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, defaultValue = '' }) =>
             type="button"
             variant="ghost"
             size="icon"
-            className="h-full aspect-square rounded-none text-muted-foreground hover:text-foreground"
+            className={`h-11 w-11 transition-colors bg-none hover:none focus:none ${
+              isListening ? 'text-primary' : 'text-muted-foreground'
+            }`}
             onClick={handleVoiceSearch}
             aria-label="Search with voice"
           >

@@ -12,7 +12,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         enableSystem
         disableTransitionOnChange
       >
-
         {children}
       </ThemeProvider>
     </SessionProvider>

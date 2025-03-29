@@ -1,10 +1,11 @@
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { Metadata } from 'next';
 
+import Hydration from '@/components/general/Hydration';
+
 import Providers from '@/components/general/Providers';
 
 import { Toaster } from '@/components/ui/sonner';
-
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -132,6 +133,7 @@ export default function RootLayout({
         <Providers>
           {children}
           <Toaster richColors closeButton />
+          <Hydration />
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ?? ''} />
           <Analytics />
         </Providers>
