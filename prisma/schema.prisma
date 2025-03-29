@@ -67,7 +67,7 @@ model VerificationToken {
 }
 
 model Product {
-  id              Int    @id @default(autoincrement())
+  id              String @id @default(cuid())
   name            String
   price           Float
   currency        String
@@ -77,7 +77,7 @@ model Product {
   walmartLink     String
 
   // Self-referencing relation
-  alternativeProductId Int?     @map("alternative_product_id")
+  alternativeProductId String?  @map("alternative_product_id")
   alternativeProduct   Product? @relation("AlternativeProduct", fields: [alternativeProductId], references: [id], onDelete: SetNull)
 
   // Inverse relation (not necessary, but helpful if you want to query which products refer to this one)
@@ -87,7 +87,7 @@ model Product {
 }
 
 model Analytics {
-  id                       Int      @id @default(autoincrement())
+  id                       String   @id @default(cuid())
   month                    Int // 1 to 12
   year                     Int
   totalExpense             Float // total money spent
