@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         hostname: 'm.media-amazon.com',
         protocol: 'https',
       },
+      {
+        hostname: 'i5.walmartimages.ca',
+        protocol: 'https',
+      },
     ],
   },
   async headers() {
