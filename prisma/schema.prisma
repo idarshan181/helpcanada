@@ -71,6 +71,7 @@ model Product {
   name            String
   price           Float
   currency        String
+  category        String
   countryOfOrigin String
   amazonLink      String
   walmartLink     String
