@@ -1,10 +1,12 @@
 {
-  "name": "YourDomain",
-  "short_name": "YourDomain",
-  "description": "YourDomain is a powerful platform that enhances user experience with cutting-edge features. Optimize performance, track analytics, and maximize engagement effortlessly.",
+  "name": "HelpCanada",
+  "short_name": "HelpCanada",
+  "description": "Discover and shop Canadian-made products across grocery, health, beauty, and more. HelpCanada connects you with high-quality items made in Canada.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#d32f2f",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -37,27 +39,27 @@
   ],
   "shortcuts": [
     {
-      "name": "Analytics",
-      "url": "/dashboard/analytics",
-      "description": "View your analytics"
+      "name": "Browse Products",
+      "url": "/products",
+      "description": "Explore our selection of Canadian products"
     },
     {
-      "name": "Create",
-      "url": "/dashboard/create",
-      "description": "Create new content"
+      "name": "Health & Beauty",
+      "url": "/products?category=health-beauty",
+      "description": "Shop health and beauty products"
     },
     {
-      "name": "Dashboard",
-      "url": "/dashboard",
-      "description": "Access your dashboard"
+      "name": "Grocery",
+      "url": "/products?category=grocery",
+      "description": "Find grocery items made in Canada"
     },
     {
       "name": "Support",
-      "url": "/support",
-      "description": "Get help and support"
+      "url": "/contact",
+      "description": "Get in touch with our team"
     }
   ],
-  "categories": ["productivity", "tools", "technology"],
+  "categories": ["shopping", "health", "food", "beauty", "ecommerce"],
   "lang": "en",
   "dir": "ltr",
   "prefer_related_applications": false
