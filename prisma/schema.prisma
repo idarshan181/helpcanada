@@ -83,6 +83,7 @@ model Analytics {
   totalExpense             Float
   canadianContribution     Float
   createdAt                DateTime @default(now())
+  updatedAt                DateTime @default(now())
   userId                   String
   accountProvider          String?
   accountProviderAccountId String?

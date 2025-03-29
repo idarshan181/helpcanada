@@ -1,9 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { updateMonthlyContribution } from '@/app/actions/analytics';
 
+import { Button } from '@/components/ui/button';
 import { useContributionStore } from '@/store/useContributionStore';
 import confetti from 'canvas-confetti';
+import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 import { Product } from '../../../types/product';
 
@@ -14,9 +16,11 @@ interface StoreButtonProps {
 }
 
 export const StoreButton: React.FC<StoreButtonProps> = ({ product, store, url }) => {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
   const { addContribution } = useContributionStore();
 
-  const handleStoreClick = (product: Product, url: string, store: 'Amazon' | 'Walmart') => {
+  const handleStoreClick = async (product: Product, url: string, store: 'Amazon' | 'Walmart') => {
     if (!url) {
       toast.error(`No ${store} link available`);
       return;
@@ -31,6 +35,13 @@ export const StoreButton: React.FC<StoreButtonProps> = ({ product, store, url })
         spread: 100,
         origin: { y: 0.6 },
       });
+
+      if (userId) {
+        const res = await updateMonthlyContribution(userId, product.price);
+        if (!res.success) {
+          toast.error('Failed to sync contribution to your account');
+        }
+      }
     }
 
     setTimeout(() => {

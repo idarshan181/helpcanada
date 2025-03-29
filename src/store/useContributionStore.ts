@@ -1,64 +1,3 @@
-// import { v4 as uuidv4 } from 'uuid';
-// import { create } from 'zustand';
-// import { persist } from 'zustand/middleware';
-
-// const getCookie = (name: string): string | null => {
-//   const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-//   return match ? decodeURIComponent(match[2]) : null;
-// };
-
-// const setCookie = (name: string, value: string, days = 365) => {
-//   const expires = new Date();
-//   expires.setDate(expires.getDate() + days);
-//   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/`;
-// };
-
-// interface ContributionState {
-//   guestId: string;
-//   totalContribution: number;
-//   addContribution: (amount: number) => void;
-//   resetContribution: () => void;
-// }
-
-// export const useContributionStore = create<ContributionState>()(
-//   persist(
-//     (set, get) => ({
-//       guestId: '',
-//       totalContribution: 0,
-
-//       addContribution: (amount) => {
-//         const newTotal = get().totalContribution + amount;
-//         set({ totalContribution: newTotal });
-//         localStorage.setItem('totalContribution', newTotal.toString());
-//       },
-
-//       resetContribution: () => {
-//         set({ totalContribution: 0 });
-//         localStorage.removeItem('totalContribution');
-//       },
-//     }),
-//     {
-//       name: 'contribution-store',
-//       partialize: state => ({ totalContribution: state.totalContribution, guestId: state.guestId }),
-//     },
-//   ),
-// );
-
-// if (typeof window !== 'undefined') {
-//   const existingGuestId = localStorage.getItem('guestId') || getCookie('guestId');
-
-//   if (!existingGuestId) {
-//     const newGuestId = uuidv4();
-//     localStorage.setItem('guestId', newGuestId);
-//     setCookie('guestId', newGuestId);
-//     useContributionStore.setState({ guestId: newGuestId });
-//   } else {
-//     localStorage.setItem('guestId', existingGuestId);
-//     setCookie('guestId', existingGuestId);
-//     useContributionStore.setState({ guestId: existingGuestId });
-//   }
-// }
-
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -89,6 +28,7 @@ interface ContributionState {
   addContribution: (amount: number) => void;
   reset: () => void;
   markAsSynced: () => void;
+  setGuestId: (id: string) => void;
 }
 
 export const useContributionStore = create<ContributionState>()(
@@ -139,6 +79,12 @@ export const useContributionStore = create<ContributionState>()(
 
       markAsSynced: () => {
         set({ synced: true });
+      },
+
+      setGuestId: (id: string) => {
+        localStorage.setItem('guestId', id);
+        setCookie('guestId', id);
+        set({ guestId: id });
       },
     }),
     {
