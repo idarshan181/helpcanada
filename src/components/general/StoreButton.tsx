@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 
 import { useContributionStore } from '@/store/useContributionStore';
+import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 import { Product } from '../../../types/product';
 
@@ -24,9 +25,17 @@ export const StoreButton: React.FC<StoreButtonProps> = ({ product, store, url })
     if (product.isMadeInCanada) {
       addContribution(product.price);
       toast.success(`$${product.price.toFixed(2)} contributed toward Canadian-made products 🇨🇦`);
+
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
     }
 
-    window.open(url, '_blank');
+    setTimeout(() => {
+      window.open(url, '_blank');
+    }, 1500); // 1.5 seconds
   };
 
   return (

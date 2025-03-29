@@ -26,6 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
           alt={product.title}
           fill
           className="object-contain transition-transform duration-300"
+
         />
         {product.isMadeInCanada && (
           <div className="absolute top-3 left-3 text-xs font-medium py-1 px-2 rounded-full flex items-center">

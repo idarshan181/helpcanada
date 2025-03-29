@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use client';
 
 import {
@@ -8,8 +9,10 @@ import {
 } from '@/components/ui/dialog';
 import { useContributionStore } from '@/store/useContributionStore';
 
+import { signIn, useSession } from 'next-auth/react';
 import { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Button } from '../ui/button';
 
 interface ContributionModalProps {
   open: boolean;
@@ -17,17 +20,35 @@ interface ContributionModalProps {
 }
 
 export const ContributionModal: React.FC<ContributionModalProps> = ({ open, onOpenChange }) => {
-  const history = useContributionStore(state => state.history);
-  const total = useContributionStore(state => state.totalContribution);
+  const { data: session } = useSession();
+  const store = useContributionStore();
 
   const chartData = useMemo(() => {
-    return history
+    return store.history
       .sort((a, b) => a.year - b.year || a.month - b.month)
       .map(item => ({
         name: `${item.month}/${item.year}`,
         amount: item.amount,
       }));
-  }, [history]);
+  }, [store.history]);
+
+  console.log('session', session);
+
+  if (!session) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Login Required</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-center">
+            <p className="text-muted-foreground">Please log in to view your contribution insights.</p>
+            <Button onClick={() => signIn('google')}>Sign in with Google</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -42,7 +63,7 @@ export const ContributionModal: React.FC<ContributionModalProps> = ({ open, onOp
             {' '}
             <strong>
               $
-              {total.toFixed(2)}
+              {store.totalContribution.toFixed(2)}
             </strong>
           </p>
 
