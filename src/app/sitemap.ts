@@ -5,16 +5,12 @@ import { getBaseURL } from '@/lib/getBaseURL';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseURL();
 
-  // Add your static routes
   const routes = [
     '',
+    '/',
     '/login',
-    '/dashboard',
     '/contact-us',
-    '/pricing',
-    '/blogs',
-    // Add dynamic routes
-    // Add your other routes her
+    '/products',
   ];
 
   return routes.map(route => ({

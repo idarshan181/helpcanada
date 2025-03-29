@@ -21,40 +21,45 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.yourdomain.com'), // Replace with actual domain
+  metadataBase: new URL('https://helpcanada.vercel.app'),
   manifest: '/site.webmanifest',
   title: {
-    default: 'YourDomain: Your Tagline Here',
-    template: '%s | YourDomain',
+    default: 'HelpCanada: Discover Canadian Products',
+    template: '%s | HelpCanada',
   },
-  description: 'YourDomain is a powerful platform that enhances user experience with cutting-edge features. Optimize performance, track analytics, and maximize engagement effortlessly.',
+  description:
+    'HelpCanada is your go-to platform for discovering and shopping high-quality Canadian-made products in grocery, health, beauty, and more.',
   keywords: [
-    'YourDomain',
-    'SEO',
-    'analytics',
-    'performance tracking',
-    'optimization',
+    'HelpCanada',
+    'Canadian products',
+    'Made in Canada',
+    'Buy Canadian',
+    'Grocery',
+    'Health',
+    'Beauty',
+    'Local products',
   ],
-  authors: [{ name: 'YourDomain Team' }],
-  creator: 'YourDomain',
+  authors: [{ name: 'HelpCanada Team' }],
+  creator: 'HelpCanada',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: 'https://www.yourdomain.com',
-    siteName: 'YourDomain',
+    locale: 'en_CA',
+    url: 'https://helpcanada.vercel.app',
+    siteName: 'HelpCanada',
     images: [
       {
         url: '/opengraph-image.png',
         width: 1200,
         height: 630,
-        alt: 'YourDomain - Your Tagline Here',
+        alt: 'HelpCanada - Discover Canadian Products',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'YourDomain: Your Tagline Here',
-    description: 'YourDomain is a powerful platform that enhances user experience with cutting-edge features.',
+    title: 'HelpCanada: Discover Canadian Products',
+    description:
+      'Find high-quality Canadian products curated for grocery, health, and lifestyle needs. Support local businesses with HelpCanada.',
     images: ['/opengraph-image.png'],
   },
   robots: {
@@ -69,10 +74,6 @@ export const metadata: Metadata = {
     },
   },
   icons: [
-    {
-      rel: 'apple-touch-icon',
-      url: '/icon.png',
-    },
     {
       rel: 'apple-touch-icon',
       url: '/apple-touch-icon.png',
@@ -110,14 +111,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              'name': 'YourDomain',
-              'url': 'https://www.yourdomain.com', // Replace with actual domain
-              'logo': 'https://www.yourdomain.com/icon.png', // Replace with actual logo URL
-              'description': 'YourDomain is a powerful platform that enhances user experience with cutting-edge features. Optimize performance, track analytics, and maximize engagement effortlessly.',
+              'name': 'HelpCanada',
+              'url': 'https://helpcanada.vercel.app',
+              'logo': 'https://helpcanada.vercel.app/icon.png',
+              'description':
+        'HelpCanada helps users discover and shop high-quality Canadian-made products across grocery, health, beauty, and pharmacy categories.',
               'sameAs': [
-                'https://twitter.com/yourdomain',
-                'https://facebook.com/yourdomain',
-                'https://linkedin.com/company/yourdomain',
+                'https://twitter.com/helpcanada',
+                'https://facebook.com/helpcanada',
+                'https://linkedin.com/company/helpcanada',
               ],
             }),
           }}
