@@ -87,7 +87,8 @@ export default function SearchProduct() {
                           {' '}
                           —
                           {' '}
-                          {product.category}
+                          {product.categories.slice(0, 3).map(cat => cat.charAt(0).toUpperCase() + cat.slice(1)).join(', ')}
+
                           {' '}
                           {product.isMadeInCanada && '🇨🇦'}
                         </p>
@@ -130,7 +131,8 @@ export default function SearchProduct() {
                             {' '}
                             —
                             {' '}
-                            {p.category}
+                            {p.categories.slice(0, 3).map(cat => cat.charAt(0).toUpperCase() + cat.slice(1)).join(', ')}
+
                             {' '}
                             {p.isMadeInCanada && '🇨🇦'}
                           </p>
