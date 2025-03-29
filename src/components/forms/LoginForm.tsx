@@ -33,7 +33,7 @@ export default async function LoginForm() {
                 'use server';
 
                 await signIn('google', {
-                  redirectTo: '/dashboard',
+                  redirectTo: '/',
                 });
               }}
             >
