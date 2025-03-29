@@ -1,5 +1,6 @@
 'use client';
 
+import { compareProducts } from '@/app/actions/compareProductActions';
 import { filterProducts } from '@/app/actions/productActions';
 import { products } from '@/app/utils/dummyData';
 import { useEffect, useState } from 'react';
@@ -40,47 +41,63 @@ const Products = () => {
     setCanadianOnly(!canadianOnly);
   };
 
-  const handleProductClick = (product: typeof products[0]) => {
+  // const handleProductClick = (product: typeof products[0]) => {
+  //   setSelectedProduct(product);
+
+  //   // Find an alternative product (different product in same category)
+  //   const alternatives = products.filter(p =>
+  //     p.id !== product.id
+  //     && p.categories.some(category => product.categories.includes(category)),
+  //   );
+
+  //   if (alternatives.length > 0) {
+  //     // Find a product that differs in "Made in Canada" status if possible
+  //     const differentOriginAlts = alternatives.filter(p =>
+  //       p.isMadeInCanada !== product.isMadeInCanada,
+  //     );
+
+  //     if (differentOriginAlts.length > 0) {
+  //       setAlternativeProduct(differentOriginAlts[0]);
+  //     } else {
+  //       setAlternativeProduct(alternatives[0]);
+  //     }
+  //     setRecommendedProducts(alternatives);
+  //   } else {
+  //     setAlternativeProduct(null);
+
+  //     // Find recommended products from any category within similar price range
+  //     const priceRange = 0.3; // 30% above or below the product price
+  //     const minPrice = product.price * (1 - priceRange);
+  //     const maxPrice = product.price * (1 + priceRange);
+
+  //     const recommendations = products.filter(p =>
+  //       p.id !== product.id
+  //       && p.price >= minPrice
+  //       && p.price <= maxPrice,
+  //     );
+
+  //     setRecommendedProducts(recommendations.length > 0 ? recommendations : products.filter(p => p.id !== product.id));
+  //   }
+
+  //   setIsModalOpen(true);
+  // };
+
+  const handleProductClick = async (product: typeof products[0]) => {
     setSelectedProduct(product);
 
-    // Find an alternative product (different product in same category)
-    const alternatives = products.filter(p =>
-      p.id !== product.id
-      && p.categories.some(category => product.categories.includes(category)),
-    );
+    // Use compareProducts to get better matches
+    const matches = await compareProducts(products, product, canadianOnly);
 
-    if (alternatives.length > 0) {
-      // Find a product that differs in "Made in Canada" status if possible
-      const differentOriginAlts = alternatives.filter(p =>
-        p.isMadeInCanada !== product.isMadeInCanada,
-      );
-
-      if (differentOriginAlts.length > 0) {
-        setAlternativeProduct(differentOriginAlts[0]);
-      } else {
-        setAlternativeProduct(alternatives[0]);
-      }
-      setRecommendedProducts(alternatives);
+    if (matches.length > 0) {
+      setAlternativeProduct(matches[0]);
+      setRecommendedProducts(matches);
     } else {
       setAlternativeProduct(null);
-
-      // Find recommended products from any category within similar price range
-      const priceRange = 0.3; // 30% above or below the product price
-      const minPrice = product.price * (1 - priceRange);
-      const maxPrice = product.price * (1 + priceRange);
-
-      const recommendations = products.filter(p =>
-        p.id !== product.id
-        && p.price >= minPrice
-        && p.price <= maxPrice,
-      );
-
-      setRecommendedProducts(recommendations.length > 0 ? recommendations : products.filter(p => p.id !== product.id));
+      setRecommendedProducts([]);
     }
 
     setIsModalOpen(true);
   };
-
   const handleSwitchRecommendation = (product: typeof products[0]) => {
     setAlternativeProduct(product);
   };
@@ -132,7 +149,7 @@ const Products = () => {
                       <ProductCard
                         key={product.id}
                         product={product}
-                        onClick={handleProductClick}
+                        onClick={() => handleProductClick(product)}
                       />
                     ))}
                   </div>
