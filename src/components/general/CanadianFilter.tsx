@@ -1,5 +1,5 @@
+import { categories } from '@/app/utils/dummyData';
 import { Button } from '@/components/ui/button';
-import { categories } from '@/data/products';
 import React from 'react';
 
 interface CategoryFilterProps {

@@ -4,7 +4,7 @@ export type Product = {
   description: string;
   price: number;
   imageSrc: string;
-  category: string;
+  categories: string[];
   isMadeInCanada: boolean;
   amazonUrl?: string;
   walmartUrl?: string;

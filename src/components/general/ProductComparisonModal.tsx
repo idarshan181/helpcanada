@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Product } from '@/data/products';
 import CanadaLogo from '@/public/logos/canada.webp';
 import { ArrowLeft, ArrowRight, Heart, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { Product } from '../../../types/product';
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
 
 interface ProductComparisonModalProps {
@@ -84,12 +84,13 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
           {/* First Product */}
-          <Card className="flex flex-col pt-0 h-full">
+          <Card className="flex flex-col pt-6 pb-2 h-full">
             <CardHeader className="relative pt-[75%] overflow-hidden rounded-md mb-4">
-              <img
+              <Image
                 src={product.imageSrc}
                 alt={product.title}
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                className="object-contain"
               />
               {product.isMadeInCanada && (
                 <div className="absolute top-3 left-3 text-xs font-medium py-1 px-2 rounded-full flex items-center">
@@ -115,9 +116,11 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
                   <li>
                     {product.isMadeInCanada ? 'Made in Canada' : 'Imported'}
                   </li>
-                  <li>
-                    {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
-                  </li>
+                  {/* {product.categories.slice(0, 3).map(cat => (
+                    <li key={`first-${cat}`}>
+                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </li>
+                  ))} */}
                 </ul>
               </div>
             </CardContent>
@@ -136,13 +139,13 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
 
           {/* Second Product */}
           {secondProduct && (
-            <Card className="flex flex-col h-full pt-0">
+            <Card className="flex flex-col h-full pt-6 pb-2">
               <CardHeader className="relative pt-[75%] overflow-hidden rounded-md mb-4">
                 <Image
                   src={secondProduct.imageSrc}
                   alt={secondProduct.title}
                   fill
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="object-contain"
                 />
                 {secondProduct.isMadeInCanada && (
                   <div className="absolute top-3 left-3 text-xs font-medium py-1 px-2 rounded-full flex items-center">
@@ -167,9 +170,11 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
                     <li>
                       {secondProduct.isMadeInCanada ? 'Made in Canada' : 'Imported'}
                     </li>
-                    <li>
-                      {secondProduct.category.charAt(0).toUpperCase() + secondProduct.category.slice(1)}
-                    </li>
+                    {/* {secondProduct.categories.slice(0, 3).map(cat => (
+                      <li key={`alternative-${cat}`}>
+                        {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                      </li>
+                    ))} */}
                   </ul>
                 </div>
               </CardContent>
