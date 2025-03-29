@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 
 import Providers from '@/components/general/Providers';
 
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { Toaster } from '@/components/ui/sonner';
 
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
@@ -128,6 +129,7 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <Toaster richColors closeButton />
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ?? ''} />
           <Analytics />
         </Providers>
