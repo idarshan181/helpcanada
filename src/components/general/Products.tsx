@@ -86,7 +86,7 @@ const Products = () => {
     setSelectedProduct(product);
 
     // Use compareProducts to get better matches
-    const matches = await compareProducts(products, product, canadianOnly);
+    const matches = await compareProducts(products, product, true);
 
     if (matches.length > 0) {
       setAlternativeProduct(matches[0]);
