@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         hostname: 'source.unsplash.com',
         protocol: 'https',
       },
+      {
+        hostname: 'm.media-amazon.com',
+        protocol: 'https',
+      },
     ],
   },
   async headers() {
