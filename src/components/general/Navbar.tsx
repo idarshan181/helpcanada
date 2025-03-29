@@ -2,9 +2,10 @@ import HelpCanadaLogo from '@/public/logos/logo_canada.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
+import ContributionBadge from './ContributionBadge';
 import { ThemeToggle } from './ThemeToggle';
 
-export default async function Navbar() {
+export default function Navbar() {
   return (
     <nav className="m-0 flex w-full items-center justify-between border-b border-gray-200 px-3 py-5">
       <div className="flex items-center gap-2">
@@ -37,6 +38,8 @@ export default async function Navbar() {
         </Link>
       </div>
       <div className="flex items-center gap-5">
+        <ContributionBadge />
+
         <ThemeToggle />
 
         <Link

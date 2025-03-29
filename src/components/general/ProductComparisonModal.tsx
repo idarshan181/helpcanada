@@ -1,12 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import CanadaLogo from '@/public/logos/canada.webp';
-import { ArrowLeft, ArrowRight, Heart, ShoppingCart } from 'lucide-react';
-import Image from 'next/image';
+import { ArrowLeft, ArrowRight, Heart } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Product } from '../../../types/product';
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
+import ProductComparisonCard from './ProductComparisonCard';
 
 interface ProductComparisonModalProps {
   isOpen: boolean;
@@ -27,6 +25,12 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
 }) => {
   const [savedComparisons, setSavedComparisons] = useState<string[]>([]);
 
+  const [_hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   useEffect(() => {
     // Load saved comparisons from localStorage
     const saved = localStorage.getItem('savedComparisons');
@@ -34,10 +38,6 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
       setSavedComparisons(JSON.parse(saved));
     }
   }, []);
-
-  const handleAddToCart = (productToAdd: Product) => {
-    toast.success(`Added ${productToAdd.title} to cart`);
-  };
 
   const handleSaveComparison = () => {
     if (!product) {
@@ -84,112 +84,10 @@ const ProductComparisonModal: React.FC<ProductComparisonModalProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
           {/* First Product */}
-          <Card className="flex flex-col pt-6 pb-2 h-full">
-            <CardHeader className="relative pt-[75%] overflow-hidden rounded-md mb-4">
-              <Image
-                src={product.imageSrc}
-                alt={product.title}
-                fill
-                className="object-contain"
-              />
-              {product.isMadeInCanada && (
-                <div className="absolute top-3 left-3 text-xs font-medium py-1 px-2 rounded-full flex items-center">
-                  <Image src={CanadaLogo} alt="canada logo" height={24} width={24} />
-                </div>
-              )}
-            </CardHeader>
-
-            <CardContent>
-              <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
-              <p className="text-gray-600 text-sm mb-3">{product.description}</p>
-
-              <div className="mt-2 mb-4">
-                <h4 className="font-semibold text-sm mb-1">Key Features:</h4>
-                <ul className="text-sm text-gray-600 space-y-1 ml-4 list-disc">
-                  <li>
-                    Price:
-                    <span className="font-bold text-canada-blue">
-                      $
-                      {product.price.toFixed(2)}
-                    </span>
-                  </li>
-                  <li>
-                    {product.isMadeInCanada ? 'Made in Canada' : 'Imported'}
-                  </li>
-                  {/* {product.categories.slice(0, 3).map(cat => (
-                    <li key={`first-${cat}`}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </li>
-                  ))} */}
-                </ul>
-              </div>
-            </CardContent>
-
-            <CardFooter className="mt-auto flex gap-2">
-              <Button
-                className="flex-1"
-                onClick={() => handleAddToCart(product)}
-              >
-                <ShoppingCart className="h-4 w-4 mr-1" />
-                Add to Cart
-              </Button>
-            </CardFooter>
-
-          </Card>
+          <ProductComparisonCard product={product} />
 
           {/* Second Product */}
-          {secondProduct && (
-            <Card className="flex flex-col h-full pt-6 pb-2">
-              <CardHeader className="relative pt-[75%] overflow-hidden rounded-md mb-4">
-                <Image
-                  src={secondProduct.imageSrc}
-                  alt={secondProduct.title}
-                  fill
-                  className="object-contain"
-                />
-                {secondProduct.isMadeInCanada && (
-                  <div className="absolute top-3 left-3 text-xs font-medium py-1 px-2 rounded-full flex items-center">
-                    <Image src={CanadaLogo} alt="canada logo" height={24} width={24} />
-                  </div>
-                )}
-              </CardHeader>
-              <CardContent>
-                <h3 className="font-semibold text-lg mb-2">{secondProduct.title}</h3>
-                <p className="text-gray-600 text-sm mb-3">{secondProduct.description}</p>
-
-                <div className="mt-2 mb-4">
-                  <h4 className="font-semibold text-sm mb-1">Key Features:</h4>
-                  <ul className="text-sm text-gray-600 space-y-1 ml-4 list-disc">
-                    <li>
-                      Price:
-                      <span className="font-bold">
-                        $
-                        {secondProduct.price.toFixed(2)}
-                      </span>
-                    </li>
-                    <li>
-                      {secondProduct.isMadeInCanada ? 'Made in Canada' : 'Imported'}
-                    </li>
-                    {/* {secondProduct.categories.slice(0, 3).map(cat => (
-                      <li key={`alternative-${cat}`}>
-                        {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                      </li>
-                    ))} */}
-                  </ul>
-                </div>
-              </CardContent>
-
-              <CardFooter className="mt-auto flex gap-2">
-                <Button
-                  className="flex-1 "
-                  onClick={() => handleAddToCart(secondProduct)}
-                >
-                  <ShoppingCart className="h-4 w-4 mr-1" />
-                  Add to Cart
-                </Button>
-              </CardFooter>
-            </Card>
-          )}
+          {secondProduct && <ProductComparisonCard product={secondProduct} />}
         </div>
 
         {/* Switch and Save Controls */}
