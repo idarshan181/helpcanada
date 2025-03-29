@@ -1,4 +1,4 @@
-import HelpCanadaLogo from '@/public/logos/logo_helpcanada.png';
+import HelpCanadaLogo from '@/public/logos/logo_canada.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
@@ -8,9 +8,12 @@ export default async function Navbar() {
   return (
     <nav className="m-0 flex w-full items-center justify-between border-b border-gray-200 px-3 py-5">
       <div className="flex items-center gap-2">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src={HelpCanadaLogo} width={256} height={128} alt="HelpCanadaLogo" />
-          {/* <span className="font-bold text-xl">HelpCanada</span> */}
+        <Link href="/" className="flex items-center gap-x-2">
+          <Image src={HelpCanadaLogo} width={48} height={48} alt="HelpCanadaLogo" className="object-contain" />
+          <span className="font-bold text-xl">
+            <span>Help</span>
+            <span className="text-primary">Canada</span>
+          </span>
         </Link>
       </div>
       <div className="hidden md:flex items-center gap-6">

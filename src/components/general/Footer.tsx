@@ -38,7 +38,8 @@ const Footer = () => {
           <div className="col-span-2 md:col-span-1">
             <div className="mb-4">
               <Link href="#" className="text-xl font-bold tracking-tight">
-                HelpCanada
+                <span>Help</span>
+                <span className="text-primary">Canada</span>
               </Link>
             </div>
             <p className="mb-4 max-w-xs text-sm text-muted-foreground">
