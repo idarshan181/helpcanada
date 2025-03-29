@@ -1,7 +1,7 @@
 'use client';
 
 import { filterProducts } from '@/app/actions/productActions';
-import { products } from '@/data/products';
+import { products } from '@/app/utils/dummyData';
 import { useEffect, useState } from 'react';
 import { Separator } from '../ui/separator';
 import CategoryFilter from './CanadianFilter';
@@ -46,7 +46,7 @@ const Products = () => {
     // Find an alternative product (different product in same category)
     const alternatives = products.filter(p =>
       p.id !== product.id
-      && p.category === product.category,
+      && p.categories.some(category => product.categories.includes(category)),
     );
 
     if (alternatives.length > 0) {
