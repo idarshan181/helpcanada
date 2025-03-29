@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Product } from '@/data/products';
+import CanadaLogo from '@/public/logos/canada.webp';
 import { ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import React from 'react';
-import MapleLeafIcon from './MapleLeafIcon';
 
 interface ProductCardProps {
   product: Product;
@@ -13,19 +14,20 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
   return (
     <Card
-      className="h-full flex flex-col overflow-hidden group transition-all duration-300 hover:shadow-md cursor-pointer"
+      className="h-full flex flex-col py-0 overflow-hidden group transition-all duration-300 hover:shadow-md cursor-pointer"
       onClick={() => onClick(product)}
     >
-      <div className="relative pt-[75%] overflow-hidden bg-gray-100">
-        <img
+      <div className="relative h-48 overflow-hidden ">
+        <Image
           src={product.imageSrc}
           alt={product.title}
+          fill
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {product.isMadeInCanada && (
-          <div className="absolute top-3 left-3 bg-canada-red text-white text-xs font-medium py-1 px-2 rounded-full flex items-center">
-            <MapleLeafIcon className="h-3 w-3 mr-1" />
-            <span>Made in Canada</span>
+
+          <div className="absolute top-3 left-3 text-xs font-medium py-1 px-2 rounded-full flex items-center">
+            <Image src={CanadaLogo} alt="canada logo" height={24} width={24} />
           </div>
         )}
       </div>

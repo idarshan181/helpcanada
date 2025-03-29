@@ -1,6 +1,7 @@
 'use client';
 
-import { filterProducts, products } from '@/data/products';
+import { filterProducts } from '@/app/actions/productActions';
+import { products } from '@/data/products';
 import { useEffect, useState } from 'react';
 import { Separator } from '../ui/separator';
 import CategoryFilter from './CanadianFilter';
@@ -86,14 +87,13 @@ const Products = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-
       <main className="flex-grow pt-8 pb-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-canada-blue mb-4">
               Discover Canadian Products
             </h1>
-            <p className=" max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto">
               Browse our curated selection of high-quality products, with options to filter for Canadian-made items.
             </p>
           </div>
