@@ -29,6 +29,7 @@ interface ContributionState {
   reset: () => void;
   markAsSynced: () => void;
   setGuestId: (id: string) => void;
+  setTotalContribution: (amount: number) => void; // ✅ Add this
 }
 
 export const useContributionStore = create<ContributionState>()(
@@ -85,6 +86,9 @@ export const useContributionStore = create<ContributionState>()(
         localStorage.setItem('guestId', id);
         setCookie('guestId', id);
         set({ guestId: id });
+      },
+      setTotalContribution: (amount: number) => {
+        set({ totalContribution: amount });
       },
     }),
     {
