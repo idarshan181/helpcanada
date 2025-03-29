@@ -76,12 +76,11 @@ model Product {
   amazonLink      String
   walmartLink     String
 
-  // Self-referencing relation
-  alternativeProductId String?  @map("alternative_product_id")
-  alternativeProduct   Product? @relation("AlternativeProduct", fields: [alternativeProductId], references: [id], onDelete: SetNull)
-
-  // Inverse relation (not necessary, but helpful if you want to query which products refer to this one)
-  alternativeToProducts Product[] @relation("AlternativeProduct")
+  // New fields
+  pros    String[] // PostgreSQL supports arrays
+  cons    String[]
+  rating  Float    @default(0.0)
+  organic Boolean  @default(false)
 
   @@map("products")
 }
