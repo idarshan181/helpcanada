@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -40,11 +34,10 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  analytics Analytics[]
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analytics         Analytics[]
 
   @@id([provider, providerAccountId])
 }
@@ -67,37 +60,35 @@ model VerificationToken {
 }
 
 model Product {
-  id              String @id @default(cuid())
+  id              String   @id @default(cuid())
   name            String
   price           Float
   currency        String
-  category        String
   countryOfOrigin String
   amazonLink      String
   walmartLink     String
-
-  // New fields
-  pros    String[] // PostgreSQL supports arrays
-  cons    String[]
-  rating  Float    @default(0.0)
-  organic Boolean  @default(false)
+  category        String
+  cons            String[]
+  organic         Boolean  @default(false)
+  pros            String[]
+  rating          Float    @default(0.0)
 
   @@map("products")
 }
 
 model Analytics {
   id                       String   @id @default(cuid())
-  month                    Int // 1 to 12
+  month                    Int
   year                     Int
-  totalExpense             Float // total money spent
-  canadianContribution     Float // money spent on Canadian products
+  totalExpense             Float
+  canadianContribution     Float
   createdAt                DateTime @default(now())
   userId                   String
-  user                     User     @relation(fields: [userId], references: [id])
-  Account                  Account? @relation(fields: [accountProvider, accountProviderAccountId], references: [provider, providerAccountId])
   accountProvider          String?
   accountProviderAccountId String?
+  Account                  Account? @relation(fields: [accountProvider, accountProviderAccountId], references: [provider, providerAccountId])
+  user                     User     @relation(fields: [userId], references: [id])
 
-  @@unique([userId, month, year]) // Each user has only one entry per month-year combo
+  @@unique([userId, month, year])
   @@map("analytics")
 }
